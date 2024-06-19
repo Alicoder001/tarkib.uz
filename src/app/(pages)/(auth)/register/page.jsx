@@ -6,23 +6,29 @@ import AvatarViewer from "@/components/custom/AvatarViewer";
 
 export default function Register() {
   return (
-    <section className="container flex h-full">
-      <div className="hidden w-2/4 items-center justify-center lg:flex">
+    <section className="flex h-full">
+      <div className="hidden w-2/4 items-center justify-center bg-slate-50 lg:flex">
         <Image
+          className="aspect-square"
           src={ImgRegister}
-          width="300"
-          height="300"
+          width="400"
+          height="400"
           alt="Register"
           priority
         />
       </div>
       <div className="flex h-full w-full items-center justify-center lg:w-2/4 lg:px-10">
-        <form className="flex w-full flex-col gap-2">
-          <div className="mx-auto mb-2">
+        <form className="flex w-full flex-col gap-2 px-5 sm:px-10 lg:px-16">
+          <div className="mx-auto">
             <label className="group" htmlFor="avatar">
               <AvatarViewer />
             </label>
-            <Input className="sr-only" id="avatar" type="file" name="avatar" />
+            <Input
+              className="sr-only fixed"
+              id="avatar"
+              type="file"
+              name="avatar"
+            />
           </div>
           <div>
             <Label htmlFor="firstName">Ism*</Label>
@@ -32,6 +38,7 @@ export default function Register() {
               type="text"
               name="firstName"
               requried="true"
+              autoComplete="off"
             />
           </div>
           <div>
@@ -41,6 +48,7 @@ export default function Register() {
               placeholder="Familiyangizni kiriting"
               type="text"
               name="lastName"
+              autoComplete="off"
             />
           </div>
           <div>
@@ -51,6 +59,7 @@ export default function Register() {
               type="text"
               name="nickname"
               requried="true"
+              autoComplete="off"
             />
           </div>
           <div>
@@ -61,6 +70,7 @@ export default function Register() {
               type="password"
               name="password"
               requried="true"
+              autoComplete="off"
             />
           </div>
         </form>
