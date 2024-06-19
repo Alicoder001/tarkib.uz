@@ -6,18 +6,18 @@ import AvatarViewer from "@/components/custom/AvatarViewer";
 
 export default function Register() {
   return (
-    <section className="flex h-full">
-      <div className="hidden w-2/4 items-center justify-center">
+    <section className="container flex h-full">
+      <div className="hidden w-2/4 items-center justify-center lg:flex">
         <Image
           src={ImgRegister}
-          width="400"
-          height="400"
+          width="300"
+          height="300"
           alt="Register"
           priority
         />
       </div>
-      <div className="flex h-full w-full items-center justify-center">
-        <form className="container flex flex-col gap-2">
+      <div className="flex h-full w-full items-center justify-center lg:w-2/4 lg:px-10">
+        <form className="flex w-full flex-col gap-2">
           <div className="mx-auto mb-2">
             <label className="group" htmlFor="avatar">
               <AvatarViewer />
