@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="grow">Main Content</main>;
+      <main className="grow">Main Content</main>
       <Footer />
     </>
   );
