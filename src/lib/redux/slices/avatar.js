@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   src: "",
-  fallBackText: "",
+  firstName: "?",
+  lastName: "",
 };
 
 const avatar = createSlice({
@@ -12,10 +13,15 @@ const avatar = createSlice({
     setSrc(state, { payload }) {
       state.src = payload;
     },
-    setFallBackText(state, { payload }) {
-      state.fallBackText = payload;
+    setFirstName(state, { payload }) {
+      state.firstName = payload;
+    },
+    setLastName(state, { payload }) {
+      if (state.firstName !== "?") {
+        state.lastName = payload;
+      }
     },
   },
 });
-export const { setSrc, setFallBackText } = avatar.actions;
+export const { setSrc, setFirstName, setLastName } = avatar.actions;
 export default avatar.reducer;
