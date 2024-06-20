@@ -1,8 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Provider } from "react-redux";
-import { store } from "@/lib/redux/store";
 import StoreProvider from "./StoreProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +15,7 @@ export default function RootLayout({ children }) {
     <html className="h-full" lang="uz">
       <body className={`${inter.className} flex h-full flex-col`}>
         <StoreProvider>{children}</StoreProvider>
+        <Toaster visibleToasts="1" />
       </body>
     </html>
   );
