@@ -10,15 +10,17 @@ import { getFormData } from "@/utils";
 import { toast } from "sonner";
 import { setFirstName, setLastName, setSrc } from "@/lib/redux/slices/avatar";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
+import Link from "next/link";
+import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
 
 export default function Register() {
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   function handleSubmit(e) {
     e.preventDefault();
-    const result = getFormData(e.target);
-    const { firstName, nickname, password } = result;
+    const { firstName, nickname, password } = getFormData(e.target);
 
     const fL = firstName.trim().length;
     const nL = nickname.trim().length;
@@ -77,7 +79,9 @@ export default function Register() {
     const size = file.size / 1024;
     const allowSize = 1024;
     if (size > allowSize) {
-      toast.info("Rasm hajmi 1 mbdan yuqori bo'lmasligi kerak");
+      toast.info(
+        "Rasm hajmi 1 mbdan katta bo'lmasligi kerak, rasm hajmini kichiklashtirish uchun tiny.png saytidan foydalanasngiz bo'ladi",
+      );
     } else {
       const url = URL.createObjectURL(file);
       dispatch(setSrc(url));
@@ -98,8 +102,11 @@ export default function Register() {
   }
 
   return (
-    <section className="flex h-full">
-      <div className="pointer-events-none hidden w-2/4 select-none items-center justify-center bg-slate-50 lg:flex">
+    <section
+      className={`flex h-full ${isLoading ? "pointer-events-none select-none" : ""}`}
+    >
+      <div className="pointer-events-none hidden w-2/4 select-none flex-col items-center justify-center bg-slate-50 lg:flex">
+        <h1 className="text-4xl font-bold">Ro'yhatdan o'tish</h1>
         <Image
           className="aspect-square"
           src={ImgRegister}
@@ -162,6 +169,10 @@ export default function Register() {
             />
           </div>
           <div>
+            <Label htmlFor="phoneNumber">Telefon raqam*</Label>
+            <PhoneNumberInput />
+          </div>
+          <div>
             <Label htmlFor="password">Maxfiy so'z*</Label>
             <Input
               id="password"
@@ -178,6 +189,12 @@ export default function Register() {
               "Ro'yhatdan o'tish"
             )}
           </Button>
+          <div className="flex justify-center text-xs">
+            <span className="mr-2">Ro'yhatdan o'tganmisiz ?</span>
+            <Link className="underline hover:no-underline" href="/login">
+              Kirish
+            </Link>
+          </div>
         </form>
       </div>
     </section>
