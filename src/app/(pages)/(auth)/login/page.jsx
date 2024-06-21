@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 
 function DialogDemo({ open, setOpen }) {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -38,7 +39,9 @@ function DialogDemo({ open, setOpen }) {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Tasdiqlash</Button>
+          <Button className="min-w-28" type="submit" disabled={isLoading}>
+            {isLoading ? <UpdateIcon className="animate-spin" /> : "Tasdiqlash"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -56,7 +59,9 @@ export default function Login() {
 
     // Validation
     if (pL === 0) {
-      toast.info("Maxfiy so'zni kiriting", { position: "bottom-left" });
+      toast.info("Maxfiy so'zni kiriting", {
+        position: "bottom-left",
+      });
     }
 
     if (!(pL === 0) && !(pL > 5)) {
@@ -77,7 +82,7 @@ export default function Login() {
             onSubmit={handleSubmit}
             action="POST"
           >
-            <div style={{ display: "none" }}>
+            <div>
               <Label htmlFor="phoneNumber">Telefon raqam*</Label>
               <PhoneNumberInput autoComplete={true} />
             </div>
