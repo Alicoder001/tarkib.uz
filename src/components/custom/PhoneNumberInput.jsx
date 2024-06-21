@@ -3,7 +3,7 @@ import { formatPhoneNumber } from "@/utils";
 import { Input } from "../ui/input";
 import { useState } from "react";
 
-export default function PhoneNumberInput() {
+export default function PhoneNumberInput({ autoComplete }) {
   const [number, setNumber] = useState("");
 
   function handleInput(e) {
@@ -15,16 +15,14 @@ export default function PhoneNumberInput() {
   }
 
   return (
-    <div>
-      <Input
-        onChange={handleInput}
-        id="phoneNumber"
-        placeholder="Telefon raqamingizni kiriting"
-        type="text"
-        name="phoneNumber"
-        value={number}
-        autoComplete="off"
-      />
-    </div>
+    <Input
+      onChange={handleInput}
+      id="phoneNumber"
+      placeholder="Telefon raqamingizni kiriting"
+      type="text"
+      name="phoneNumber"
+      value={number}
+      autoComplete={autoComplete ? "tel" : "off"}
+    />
   );
 }

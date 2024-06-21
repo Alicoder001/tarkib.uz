@@ -168,7 +168,7 @@ export default function Register() {
               autoComplete="off"
             />
           </div>
-          <div>
+          <div style={{ display: "none" }}>
             <Label htmlFor="phoneNumber">Telefon raqam*</Label>
             <PhoneNumberInput />
           </div>
