@@ -68,9 +68,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply box-border border-border;
+  }
+  html {
+    @apply h-full;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply flex h-full flex-col bg-background text-foreground;
+  }
+  .main {
+    @apply h-full grow;
+  }
+  .container {
+    @apply max-w-[1440px] px-[15px] sm:px-[20px] md:px-[30px] lg:px-[40px] 2xl:px-[80px];
   }
 }
