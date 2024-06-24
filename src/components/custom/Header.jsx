@@ -11,7 +11,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "..//ui/command";
+} from "../ui/command";
 import { useState } from "react";
 
 export default function Header() {
