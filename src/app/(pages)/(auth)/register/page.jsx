@@ -20,11 +20,14 @@ export default function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { firstName, nickname, password } = getFormData(e.target);
+    const { firstName, nickname, password, phoneNumber } = getFormData(
+      e.target,
+    );
 
     const fL = firstName.trim().length;
     const nL = nickname.trim().length;
     const pL = password.trim().length;
+    const pnL = phoneNumber.trim().length;
 
     // Validation
     if (fL === 0) {
@@ -63,6 +66,10 @@ export default function Register() {
           return `@${data.text} taxallusi band, boshqa taxallus tanlang`;
         },
       });
+    }
+
+    if (pnL.length === 0) {
+      toast.info("Telefon raqamingizni kiriting");
     }
 
     if (!(fL === 0) && fL > 2 && !(nL === 0) && pL === 0) {
