@@ -6,11 +6,41 @@ export async function registerUser(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200 || 201) {
+    if (res.status !== 200) {
       throw new Error(res);
-    } else return res;
-  } catch ({ status }) {
-    return status;
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
+  }
+}
+
+export async function loginUser(data) {
+  try {
+    const res = await fetch(`${baseUrl}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    if (res.status !== 200) {
+      throw new Error(res);
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
+  }
+}
+
+export async function logoutUser(token) {
+  try {
+    const res = await fetch(`${baseUrl}/auth/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.status === 200) {
+      return res.json();
+    } else throw new Error(res);
+  } catch ({ message }) {
+    return message;
   }
 }
 
@@ -20,11 +50,11 @@ export async function updateUser(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200 || 201) {
+    if (res.status !== 200) {
       throw new Error(res);
-    } else return res;
-  } catch ({ status }) {
-    return status;
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
   }
 }
 
@@ -35,11 +65,11 @@ export async function deleteUser(token) {
         Authorization: "Bearer " + token,
       },
     });
-    if (res.status !== 200 || 201) {
+    if (res.status !== 200) {
       throw new Error(res);
-    } else return res;
-  } catch ({ status }) {
-    return status;
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
   }
 }
 
@@ -49,29 +79,27 @@ export async function verifyOTP(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200 || 201) {
+    if (res.status !== 200) {
       throw new Error(res);
-    } else return res;
-  } catch ({ status }) {
-    return status;
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
   }
 }
 
 export async function uploadFile(file) {
   const image = new FormData();
-  image.append("image", file);
+  image.append("file", file);
+  image.append("type", "avatars");
   try {
     const res = await fetch(`${baseUrl}/file/upload`, {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: image,
     });
-    if (res.status !== 200 || 201) {
+    if (res.status !== 200) {
       throw new Error(res);
-    } else return res;
-  } catch ({ status }) {
-    return status;
+    } else return res.json();
+  } catch ({ message }) {
+    return message;
   }
 }

@@ -19,9 +19,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { getFormData } from "@/utils";
 import { verifyOTP } from "@/requests";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import { setUser } from "@/lib/redux/slices/user";
 
 function InputOTPPattern() {
   const [value, setValue] = useState("");
@@ -49,24 +50,26 @@ function InputOTPPattern() {
 
 export default function VerifyOTP({ open, onOpenChange }) {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   function handleVerify(e) {
     e.preventDefault();
     const { code } = getFormData(e.target);
+    console.log(user);
     if (code.length === 6) {
       setIsLoading(true);
-      console.log(user.phoneNumber);
       toast.promise(
         verifyOTP({
-          phoneNumber: user.phoneNumber,
+          phoneNumber: user?.phoneNumber,
           code,
         }),
         {
           loading: "Tasdiqlash kodi tekshirilmoqda...",
-          success() {
+          success(user) {
             toast.dismiss();
+            dispatch(setUser(user));
             toast.success("Ro'yhatdan o'tish muvaffaqiyatli yakunlandi");
             setIsLoading(false);
             router.push("/");

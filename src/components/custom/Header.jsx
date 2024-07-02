@@ -9,23 +9,35 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
 import { Pencil2Icon } from "@radix-ui/react-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import { logoutUser } from "@/requests";
+import { setUser } from "@/lib/redux/slices/user";
 
 export default function Header() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const firstNameLetter = user?.firstName[0].toUpperCase();
   const lastNameLetter = user?.lastName[0].toUpperCase();
   const [showCommand, setSetShowCommand] = useState(false);
+
+  function handleLogout() {
+    toast.promise(logoutUser(user.accessToken), {
+      success({ message }) {
+        dispatch(setUser(null));
+        return message;
+      },
+      error(message) {
+        return message;
+      },
+    });
+  }
+
   return (
     <header className="py-4 shadow-md">
       <div className="base-container flex items-center justify-between">
@@ -62,38 +74,14 @@ export default function Header() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>@{user.nickname}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Keyboard shortcuts</DropdownMenuItem>
+                  <DropdownMenuItem>Sozlamalar</DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      Invite users
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
-                        <DropdownMenuItem>Email</DropdownMenuItem>
-                        <DropdownMenuItem>Message</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>More...</DropdownMenuItem>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                  <DropdownMenuItem>New Team</DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>GitHub</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuItem disabled>API</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Chiqish
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}

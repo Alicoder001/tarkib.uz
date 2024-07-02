@@ -20,8 +20,7 @@ export default function Register() {
   const { src } = useSelector((state) => state.avatar);
   const [isLoading, setIsLoading] = useState(false);
   const [verifyOTPModal, setVerifyOTPModal] = useState(false);
-  const [avatar, setAvatar] = useState(null);
-  const [isUploading, setIsUploading] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const dispatch = useDispatch();
 
   function handleSubmit(e) {
@@ -78,9 +77,10 @@ export default function Register() {
       setIsLoading(true);
       toast.promise(registerUser(user), {
         loading: "Ma'lumotlar tekshirilmoqda...",
-        success() {
+        success({ message }) {
           toast.dismiss();
           dispatch(setUser(user));
+          toast.success(message);
           setIsLoading(false);
           setVerifyOTPModal(true);
         },
@@ -102,12 +102,16 @@ export default function Register() {
         "Rasm hajmi 1 mbdan katta bo'lmasligi kerak, qayta urunib ko'ring",
       );
     } else {
+      setIsUploading(true);
       toast.promise(uploadFile(file), {
         loading: "Rasm yuklanmoqda...",
-        success(message) {
-          return message;
+        success({ url }) {
+          toast.dismiss();
+          dispatch(setSrc(url));
+          setIsUploading(false);
         },
         error(message) {
+          setIsUploading(false);
           return message;
         },
       });
