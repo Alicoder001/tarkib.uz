@@ -72,18 +72,18 @@
   }
 
   html {
-    @apply h-full;
+    @apply h-full scroll-smooth;
   }
 
   body {
-    @apply flex h-full flex-col bg-background text-foreground;
+    @apply flex h-full flex-col;
   }
 
-  .main {
-    @apply h-full grow;
+  main {
+    @apply grow;
   }
 
-  .container {
-    @apply max-w-[1440px] px-[15px] sm:px-[20px] md:px-[30px] lg:px-[40px] 2xl:px-[80px];
+  .base-container {
+    @apply container px-5;
   }
 }

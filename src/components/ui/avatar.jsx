@@ -9,7 +9,7 @@ const Avatar = React.forwardRef(({ className, ...props }, ref) => (
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full hover:cursor-pointer md:h-12 md:w-12 lg:h-16 lg:w-16",
+      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
       className,
     )}
     {...props}

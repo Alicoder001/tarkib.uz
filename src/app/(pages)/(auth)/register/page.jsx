@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Link from "next/link";
 import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
-import { registerUser } from "@/requests";
+import { registerUser, uploadFile } from "@/requests";
 import VerifyOTP from "@/components/custom/VerifyOTP";
 import { setUser } from "@/lib/redux/slices/user";
 
@@ -20,6 +20,8 @@ export default function Register() {
   const { src } = useSelector((state) => state.avatar);
   const [isLoading, setIsLoading] = useState(false);
   const [verifyOTPModal, setVerifyOTPModal] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [isUploading, setIsUploading] = useState(null);
   const dispatch = useDispatch();
 
   function handleSubmit(e) {
@@ -94,22 +96,21 @@ export default function Register() {
     const file = e.target.files[0];
     const size = file.size / 1024;
     const allowSize = 1024;
+
     if (size > allowSize) {
       toast.info(
         "Rasm hajmi 1 mbdan katta bo'lmasligi kerak, qayta urunib ko'ring",
       );
     } else {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        const base64String = e.target.result;
-        dispatch(setSrc(base64String));
-      };
-      reader.onerror = () => {
-        toast.error(
-          "Rasmni yuklashda xatolik yuz berdi, qayta urunib. ko'ring",
-        );
-      };
+      toast.promise(uploadFile(file), {
+        loading: "Rasm yuklanmoqda...",
+        success(message) {
+          return message;
+        },
+        error(message) {
+          return message;
+        },
+      });
     }
   }
 
@@ -147,11 +148,10 @@ export default function Register() {
           <form
             className={`flex w-full flex-col gap-2 px-5 transition-opacity sm:px-10 md:px-24 lg:px-20 ${isLoading ? "pointer-events-none opacity-60" : ""}`}
             onSubmit={handleSubmit}
-            action="POST"
           >
             <div className="mx-auto select-none">
               <label className="group" htmlFor="avatar">
-                <AvatarViewer />
+                <AvatarViewer disabled={isUploading} />
               </label>
               <Input
                 className="sr-only fixed"

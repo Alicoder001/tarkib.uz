@@ -3,11 +3,13 @@ import { CameraIcon } from "@radix-ui/react-icons";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
-export default function AvatarViewer() {
+export default function AvatarViewer({ disabled }) {
   const { src, firstName, lastName } = useSelector((state) => state.avatar);
   return (
-    <div className="relative overflow-hidden">
-      <Avatar>
+    <div
+      className={`relative overflow-hidden transition-opacity ${disabled ? "pointer-events-none opacity-60" : ""}`}
+    >
+      <Avatar className="h-16 w-16">
         <AvatarImage
           onLoad={() => toast.success("Avatar rasmi muvaffaqiyatli yangilandi")}
           onError={() =>
