@@ -19,36 +19,57 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { loginUser } from "@/requests";
+import { forgotPassword, loginUser } from "@/requests";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/redux/slices/user";
 import { useRouter } from "next/navigation";
 
 function DialogDemo({ open, setOpen }) {
-  // change..
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  function handleSubmit(e) {
+    e.preventDefault();
+    const data = getFormData(e.target);
+    setIsLoading(true);
+    toast.promise(forgotPassword(data), {
+      loading: "Tekshirilmoqda...",
+      success({ message }) {
+        setIsLoading(false);
+        return message;
+      },
+      error({ message }) {
+        setIsLoading(false);
+        return message;
+      },
+    });
+  }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      className={`transition-opacity ${isLoading ? "pointer-events-none opacity-60" : ""}`}
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Maxfiy so'zni tiklash</DialogTitle>
           <DialogDescription>
             Ro'yhatdan o'tgan telefon raqamingizni yozing. Biz ushbu telefon
-            raqamga siz o'rnatgan maxfiy so'zni yuboramiz
+            raqamga vaqtinchalik foydalanish uchun maxfiy so'z yuboramiz.
+            Profilingizga kirgach, maxfiy so'zni o'zgartirishingiz kerak bo'ladi
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div>
+          <form onSubmit={handleSubmit}>
             <Label htmlFor="phoneNumber">Telefon raqam*</Label>
             <PhoneNumberInput autoComplete={true} />
-          </div>
+            <DialogFooter className="pt-6">
+              <Button className="min-w-28" type="submit">
+                Tasdiqlash
+              </Button>
+            </DialogFooter>
+          </form>
         </div>
-        <DialogFooter>
-          <Button className="min-w-28" type="submit" disabled={isLoading}>
-            {isLoading ? <UpdateIcon className="animate-spin" /> : "Tasdiqlash"}
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -65,6 +86,7 @@ export default function Login() {
     e.preventDefault();
     const { password, nickname } = getFormData(e.target);
     const pL = password.trim().length;
+    const nL = nickname.trim().length;
 
     // Validation
     if (pL === 0) {
@@ -76,6 +98,20 @@ export default function Login() {
 
     if (!(pL === 0) && !(pL > 5)) {
       toast.info("Maxfiy so'z eng kamida 6 belgidan iborat bo'lishi kerak", {
+        position: "bottom-left",
+      });
+      checker = false;
+    }
+
+    if (nL === 0) {
+      toast.info("Taxallusingizni kiriting", {
+        position: "bottom-left",
+      });
+      checker = false;
+    }
+
+    if (!(nL === 0) && !(nL > 3)) {
+      toast.info("Taxallus eng kamida 4 belgidan iborat bo'lishi kerak", {
         position: "bottom-left",
       });
       checker = false;
@@ -114,12 +150,12 @@ export default function Login() {
           >
             <div>
               <Label htmlFor="nickname">Taxallus*</Label>
-              {/* <PhoneNumberInput autoComplete={true} /> */}
               <Input
                 id="nickname"
                 placeholder="Taxallusingizni kiriting"
                 type="text"
                 name="nickname"
+                autoComplete="nickname"
               />
             </div>
             <div>

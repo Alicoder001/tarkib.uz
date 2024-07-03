@@ -1,14 +1,14 @@
 import { baseUrl } from "@/constants";
-
 export async function registerUser(data) {
   try {
     const res = await fetch(`${baseUrl}/auth/register`, {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -20,9 +20,10 @@ export async function loginUser(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -36,9 +37,10 @@ export async function logoutUser(token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (res.status === 200) {
-      return res.json();
-    } else throw new Error(res);
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -50,9 +52,10 @@ export async function updateUser(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -65,9 +68,10 @@ export async function deleteUser(token) {
         Authorization: "Bearer " + token,
       },
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -79,9 +83,10 @@ export async function verifyOTP(data) {
       method: "POST",
       body: JSON.stringify(data),
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
   }
@@ -96,10 +101,28 @@ export async function uploadFile(file) {
       method: "POST",
       body: image,
     });
-    if (res.status !== 200) {
-      throw new Error(res);
-    } else return res.json();
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
   } catch ({ message }) {
     return message;
+  }
+}
+
+export async function forgotPassword(data) {
+  try {
+    const res = await fetch(`${baseUrl}/auth/forgot`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw new Error(resBody.message);
+    } else {
+      return resBody;
+    }
+  } catch (error) {
+    return error;
   }
 }
