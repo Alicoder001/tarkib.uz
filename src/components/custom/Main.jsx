@@ -4,7 +4,7 @@ import BreadCrumb from "./BreadCrumb";
 const Main = ({ children }) => {
   return (
     <main className="main">
-      <div className="container mt-4">
+      <div className="base-container mt-4">
         <BreadCrumb />
       </div>
       {children}
