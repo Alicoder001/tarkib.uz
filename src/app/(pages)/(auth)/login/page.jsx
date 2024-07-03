@@ -34,10 +34,11 @@ function DialogDemo({ open, setOpen }) {
     toast.promise(forgotPassword(data), {
       loading: "Tekshirilmoqda...",
       success({ message }) {
+        setOpen(!open);
         setIsLoading(false);
         return message;
       },
-      error({ message }) {
+      error(message) {
         setIsLoading(false);
         return message;
       },
