@@ -10,7 +10,7 @@ export async function registerUser(data) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -25,7 +25,7 @@ export async function loginUser(data) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -42,7 +42,7 @@ export async function logoutUser(token) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -57,7 +57,7 @@ export async function updateUser(data) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -73,7 +73,7 @@ export async function deleteUser(token) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -88,7 +88,7 @@ export async function verifyOTP(data) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -106,7 +106,7 @@ export async function uploadFile(file) {
       throw resBody;
     } else return resBody;
   } catch ({ message }) {
-    return message;
+    throw message;
   }
 }
 
@@ -122,7 +122,7 @@ export async function forgotPassword(data) {
     } else {
       return resBody;
     }
-  } catch (error) {
-    return error;
+  } catch ({ message }) {
+    throw message;
   }
 }
