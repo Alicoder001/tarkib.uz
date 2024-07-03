@@ -1,2 +1,1 @@
 # tarkib.uz
-# tarkib.uz
