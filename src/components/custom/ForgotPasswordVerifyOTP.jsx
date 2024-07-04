@@ -2,7 +2,7 @@ import { setModalForgotPasswordVerifyOTP } from "@/lib/redux/slices/modals";
 import { verifyForgotPasswordOTP } from "@/requests";
 import { getFormData } from "@/utils";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -16,6 +16,7 @@ import InputOTPPattern from "./InputOTPPattern";
 
 export default function ForgotPasswordVerifyOTP() {
   const { forgotPasswordVerifyOTPModal } = useSelector((state) => state.modals);
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   function handleVerify(e) {
@@ -48,7 +49,7 @@ export default function ForgotPasswordVerifyOTP() {
   return (
     <Dialog
       open={forgotPasswordVerifyOTPModal}
-      onOpenChange={setModalForgotPasswordVerifyOTP}
+      onOpenChange={() => dispatch(setModalForgotPasswordVerifyOTP)}
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
