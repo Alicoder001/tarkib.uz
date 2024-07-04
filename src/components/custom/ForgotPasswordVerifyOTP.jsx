@@ -47,7 +47,6 @@ export default function ForgotPasswordVerifyOTP() {
 
   return (
     <Dialog
-      className={`transition-opacity ${isLoading ? "pointer-events-none opacity-60" : ""}`}
       open={forgotPasswordVerifyOTPModal}
       onOpenChange={setModalForgotPasswordVerifyOTP}
     >
@@ -66,7 +65,7 @@ export default function ForgotPasswordVerifyOTP() {
         >
           <InputOTPPattern />
           <DialogFooter className="mt-5">
-            <Button className="min-w-28" type="submit">
+            <Button className="min-w-28" type="submit" disabled={isLoading}>
               Tasdiqlash
             </Button>
           </DialogFooter>

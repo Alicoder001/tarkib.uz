@@ -1,20 +1,20 @@
 "use client";
-import Image from "next/image";
-import ImgRegister from "/public/register.svg";
+import AvatarViewer from "@/components/custom/AvatarViewer";
+import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
+import VerifyOTP from "@/components/custom/VerifyOTP";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import AvatarViewer from "@/components/custom/AvatarViewer";
-import { Button } from "@/components/ui/button";
-import { getFormData } from "@/utils";
-import { toast } from "sonner";
 import { setFirstName, setLastName, setSrc } from "@/lib/redux/slices/avatar";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import Link from "next/link";
-import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
-import { registerUser, uploadFile } from "@/requests";
-import VerifyOTP from "@/components/custom/VerifyOTP";
 import { setUser } from "@/lib/redux/slices/user";
+import { registerUser, uploadFile } from "@/requests";
+import { getFormData } from "@/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import ImgRegister from "/public/register.svg";
 
 export default function Register() {
   const { src } = useSelector((state) => state.avatar);
@@ -133,9 +133,7 @@ export default function Register() {
 
   return (
     <>
-      <section
-        className={`flex h-full ${isLoading ? "pointer-events-none select-none" : ""}`}
-      >
+      <section className="flex h-full">
         <div className="pointer-events-none hidden w-2/4 select-none flex-col items-center justify-center bg-slate-50 lg:flex">
           <h1 className="text-4xl font-bold">Ro'yhatdan o'tish</h1>
           <Image
@@ -150,7 +148,7 @@ export default function Register() {
 
         <div className="flex h-full w-full items-center justify-center lg:w-2/4 lg:px-10">
           <form
-            className={`flex w-full flex-col gap-2 px-5 transition-opacity sm:px-10 md:px-24 lg:px-20 ${isLoading ? "pointer-events-none opacity-60" : ""}`}
+            className="flex w-full flex-col gap-2 px-5 transition-opacity sm:px-10 md:px-24 lg:px-20"
             onSubmit={handleSubmit}
           >
             <div className="mx-auto select-none">
@@ -212,7 +210,7 @@ export default function Register() {
                 autoComplete="off"
               />
             </div>
-            <Button className="mt-3" type="submit">
+            <Button className="mt-3" type="submit" disabled={isLoading}>
               Ro'yhatdan o'tish
             </Button>
             <div className="flex justify-center text-xs">

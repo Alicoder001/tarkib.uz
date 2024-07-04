@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getFormData } from "@/utils";
-import { UpdateIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -49,12 +48,8 @@ function DialogDemo({ forgotPasswordModal, setForgotPasswordModal }) {
   }
 
   return (
-    <Dialog
-      className={`transition-opacity ${isLoading ? "pointer-events-none opacity-60" : ""}`}
-      open={forgotPasswordModal}
-      onOpenChange={setForgotPasswordModal}
-    >
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={forgotPasswordModal} onOpenChange={setForgotPasswordModal}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Maxfiy so'zni tiklash</DialogTitle>
           <DialogDescription>
@@ -73,7 +68,7 @@ function DialogDemo({ forgotPasswordModal, setForgotPasswordModal }) {
               <PhoneNumberInput autoComplete={true} />
             </div>
             <DialogFooter className="pt-6">
-              <Button className="min-w-28" type="submit">
+              <Button className="min-w-28" type="submit" disabled={isLoading}>
                 Tasdiqlash
               </Button>
             </DialogFooter>
@@ -99,30 +94,22 @@ export default function Login() {
 
     // Validation
     if (pL === 0) {
-      toast.info("Maxfiy so'zni kiriting", {
-        position: "bottom-left",
-      });
+      toast.info("Maxfiy so'zni kiriting", {});
       checker = false;
     }
 
     if (!(pL === 0) && !(pL > 5)) {
-      toast.info("Maxfiy so'z eng kamida 6 belgidan iborat bo'lishi kerak", {
-        position: "bottom-left",
-      });
+      toast.info("Maxfiy so'z eng kamida 6 belgidan iborat bo'lishi kerak", {});
       checker = false;
     }
 
     if (nL === 0) {
-      toast.info("Taxallusingizni kiriting", {
-        position: "bottom-left",
-      });
+      toast.info("Taxallusingizni kiriting", {});
       checker = false;
     }
 
     if (!(nL === 0) && !(nL > 3)) {
-      toast.info("Taxallus eng kamida 4 belgidan iborat bo'lishi kerak", {
-        position: "bottom-left",
-      });
+      toast.info("Taxallus eng kamida 4 belgidan iborat bo'lishi kerak", {});
       checker = false;
     }
 
@@ -146,12 +133,8 @@ export default function Login() {
 
   return (
     <>
-      <section
-        className={`flex h-full ${isLoading ? "pointer-events-none select-none" : ""}`}
-      >
-        <div
-          className={`flex h-full w-full items-center justify-center transition-opacity lg:w-2/4 lg:px-10 ${isLoading ? "pointer-events-none, opacity-60" : ""}`}
-        >
+      <section className="flex h-full">
+        <div className="flex h-full w-full items-center justify-center transition-opacity lg:w-2/4 lg:px-10">
           <form
             className="flex w-full flex-col gap-2 px-5 sm:px-10 md:px-24 lg:px-20"
             onSubmit={handleSubmit}
@@ -178,7 +161,7 @@ export default function Login() {
               />
             </div>
             <Button className="mt-3" type="submit" disabled={isLoading}>
-              {isLoading ? <UpdateIcon className="animate-spin" /> : "Kirish"}
+              Kirish
             </Button>
             <div className="flex justify-center text-xs">
               <Link className="underline hover:no-underline" href="/register">
