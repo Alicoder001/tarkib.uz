@@ -8,45 +8,14 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { useState } from "react";
-import { toast } from "sonner";
-import { getFormData } from "@/utils";
-import { verifyOTP } from "@/requests";
-import { useDispatch, useSelector } from "react-redux";
-import { UpdateIcon } from "@radix-ui/react-icons";
-import { useRouter } from "next/navigation";
 import { setUser } from "@/lib/redux/slices/user";
-
-function InputOTPPattern() {
-  const [value, setValue] = useState("");
-  return (
-    <InputOTP
-      onChange={(value) => {
-        setValue(value);
-      }}
-      name="code"
-      value={value}
-      maxLength={6}
-      pattern={REGEXP_ONLY_DIGITS}
-    >
-      <InputOTPGroup>
-        <InputOTPSlot index={0} />
-        <InputOTPSlot index={1} />
-        <InputOTPSlot index={2} />
-        <InputOTPSlot index={3} />
-        <InputOTPSlot index={4} />
-        <InputOTPSlot index={5} />
-      </InputOTPGroup>
-    </InputOTP>
-  );
-}
+import { verifyOTP } from "@/requests";
+import { getFormData } from "@/utils";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import InputOTPPattern from "./InputOTPPattern";
 
 export default function VerifyOTP({ open, onOpenChange }) {
   const { user } = useSelector((state) => state.user);
@@ -86,7 +55,11 @@ export default function VerifyOTP({ open, onOpenChange }) {
   }
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
+      <Dialog
+        className={`transition-opacity ${isLoading ? "pointer-events-none opacity-60" : ""}`}
+        open={open}
+        onOpenChange={onOpenChange}
+      >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Tasdiqlash jarayoni</DialogTitle>
@@ -98,12 +71,8 @@ export default function VerifyOTP({ open, onOpenChange }) {
           <form onSubmit={handleVerify}>
             <InputOTPPattern />
             <DialogFooter className="mt-5">
-              <Button className="min-w-28" type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <UpdateIcon className="animate-spin" />
-                ) : (
-                  "Tasdiqlash"
-                )}
+              <Button className="min-w-28" type="submit">
+                Tasdiqlash
               </Button>
             </DialogFooter>
           </form>

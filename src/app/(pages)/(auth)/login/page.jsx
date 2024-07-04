@@ -1,16 +1,17 @@
 "use client";
-import Image from "next/image";
-import ImgLogin from "/public/login.svg";
+import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { UpdateIcon } from "@radix-ui/react-icons";
 import { getFormData } from "@/utils";
-import { toast } from "sonner";
-import { useState } from "react";
+import { UpdateIcon } from "@radix-ui/react-icons";
+import Image from "next/image";
 import Link from "next/link";
-import PhoneNumberInput from "@/components/custom/PhoneNumberInput";
+import { useState } from "react";
+import { toast } from "sonner";
+import ImgLogin from "/public/login.svg";
 
+import ForgotPasswordVerifyOTP from "@/components/custom/ForgotPasswordVerifyOTP";
 import {
   Dialog,
   DialogContent,
@@ -19,14 +20,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { forgotPassword, loginUser } from "@/requests";
-import { useDispatch } from "react-redux";
+import { setModalForgotPasswordVerifyOTP } from "@/lib/redux/slices/modals";
 import { setUser } from "@/lib/redux/slices/user";
+import { forgotPassword, loginUser } from "@/requests";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
-function DialogDemo({ open, setOpen }) {
+function DialogDemo({ forgotPasswordModal, setForgotPasswordModal }) {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const dispatch = useDispatch();
   function handleSubmit(e) {
     e.preventDefault();
     const data = getFormData(e.target);
@@ -34,7 +36,8 @@ function DialogDemo({ open, setOpen }) {
     toast.promise(forgotPassword(data), {
       loading: "Tekshirilmoqda...",
       success({ message }) {
-        setOpen(!open);
+        setForgotPasswordModal(!forgotPasswordModal);
+        dispatch(setModalForgotPasswordVerifyOTP());
         setIsLoading(false);
         return message;
       },
@@ -48,8 +51,8 @@ function DialogDemo({ open, setOpen }) {
   return (
     <Dialog
       className={`transition-opacity ${isLoading ? "pointer-events-none opacity-60" : ""}`}
-      open={open}
-      onOpenChange={setOpen}
+      open={forgotPasswordModal}
+      onOpenChange={setForgotPasswordModal}
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -61,9 +64,14 @@ function DialogDemo({ open, setOpen }) {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <form onSubmit={handleSubmit}>
-            <Label htmlFor="phoneNumber">Telefon raqam*</Label>
-            <PhoneNumberInput autoComplete={true} />
+          <form
+            className="flex flex-col items-center sm:items-start"
+            onSubmit={handleSubmit}
+          >
+            <div className="w-full">
+              <Label htmlFor="phoneNumber">Telefon raqam*</Label>
+              <PhoneNumberInput autoComplete={true} />
+            </div>
             <DialogFooter className="pt-6">
               <Button className="min-w-28" type="submit">
                 Tasdiqlash
@@ -80,7 +88,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
 
   function handleSubmit(e) {
     let checker = true;
@@ -179,7 +187,7 @@ export default function Login() {
             </div>
             <div className="flex justify-center text-xs">
               <button
-                onClick={() => setOpen(!open)}
+                onClick={() => setForgotPasswordModal(!forgotPasswordModal)}
                 className="underline hover:no-underline"
                 type="button"
               >
@@ -201,7 +209,11 @@ export default function Login() {
           />
         </div>
       </section>
-      <DialogDemo open={open} setOpen={setOpen} />
+      <DialogDemo
+        forgotPasswordModal={forgotPasswordModal}
+        setForgotPasswordModal={setForgotPasswordModal}
+      />
+      <ForgotPasswordVerifyOTP />
     </>
   );
 }

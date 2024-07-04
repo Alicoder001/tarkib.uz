@@ -92,6 +92,21 @@ export async function verifyOTP(data) {
   }
 }
 
+export async function verifyForgotPasswordOTP(data) {
+  try {
+    const res = await fetch(`${baseUrl}/auth/verify-forgot`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const resBody = await res.json();
+    if (!res.ok) {
+      throw resBody;
+    } else return resBody;
+  } catch ({ message }) {
+    throw message;
+  }
+}
+
 export async function uploadFile(file) {
   const image = new FormData();
   image.append("file", file);
