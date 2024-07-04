@@ -1,8 +1,16 @@
 "use client";
-import Image from "next/image";
-import { Avatar } from "../ui/avatar";
+import { setUser } from "@/lib/redux/slices/user";
+import { logoutUser } from "@/requests";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Pencil2Icon } from "@radix-ui/react-icons";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import { Avatar } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,16 +20,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import Link from "next/link";
-import { Pencil2Icon } from "@radix-ui/react-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "sonner";
-import { logoutUser } from "@/requests";
-import { setUser } from "@/lib/redux/slices/user";
 
 export default function Header() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
+  const router = useRouter();
   const firstNameLetter = user?.firstName[0].toUpperCase();
   const lastNameLetter = user?.lastName[0].toUpperCase();
   const [showCommand, setSetShowCommand] = useState(false);
@@ -38,8 +41,14 @@ export default function Header() {
     });
   }
 
+  function handleWrite() {
+    if (user) {
+      router.push("/write");
+    } else alert("Kechirasiz");
+  }
+
   return (
-    <header className="py-4 shadow-md">
+    <header className="py-4 shadow-sm">
       <div className="base-container flex items-center justify-between">
         <Link href={"/"}>
           <Image
@@ -57,18 +66,17 @@ export default function Header() {
           }}
           className={`flex items-center gap-6`}
         >
-          <Pencil2Icon
-            className="h-6 w-6 hover:cursor-pointer md:h-8 md:w-8 lg:h-10 lg:w-10"
-            width={24}
-            height={24}
-            color="gray"
-          />
+          <Button onClick={handleWrite} variant="secondary">
+            <Pencil2Icon className="mr-2 h-4 w-4" />
+            Yozish
+          </Button>
+
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar>
+                <Avatar className="ml-5">
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback>
+                  <AvatarFallback className="flex h-full w-full items-center justify-center bg-muted">
                     {firstNameLetter + lastNameLetter}
                   </AvatarFallback>
                 </Avatar>
@@ -77,7 +85,9 @@ export default function Header() {
                 <DropdownMenuLabel>@{user.nickname}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>Sozlamalar</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push("/settings")}>
+                    Sozlamalar
+                  </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuItem onClick={handleLogout}>
                   Chiqish
