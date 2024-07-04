@@ -1,8 +1,10 @@
+"use client";
 import { setModalForgotPasswordVerifyOTP } from "@/lib/redux/slices/modals";
 import { verifyForgotPasswordOTP } from "@/requests";
 import { getFormData } from "@/utils";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -16,8 +18,8 @@ import InputOTPPattern from "./InputOTPPattern";
 
 export default function ForgotPasswordVerifyOTP() {
   const { forgotPasswordVerifyOTPModal } = useSelector((state) => state.modals);
+  const { phoneNumber } = useSelector((state) => state.otpDetails);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   function handleVerify(e) {
     e.preventDefault();
@@ -26,13 +28,14 @@ export default function ForgotPasswordVerifyOTP() {
       setIsLoading(true);
       toast.promise(
         verifyForgotPasswordOTP({
-          phoneNumber: user?.phoneNumber,
+          phoneNumber,
           code,
         }),
         {
           loading: "Tasdiqlash kodi tekshirilmoqda...",
           success(data) {
-            console.log(data);
+            setIsLoading(false);
+            dispatch(setModalForgotPasswordVerifyOTP());
             return "Telefon raqamingizga vaqtinchalik foydalanish uchun 6 xonali maxfiy kalit yuborildi";
           },
           error(message) {
@@ -49,7 +52,7 @@ export default function ForgotPasswordVerifyOTP() {
   return (
     <Dialog
       open={forgotPasswordVerifyOTPModal}
-      onOpenChange={() => dispatch(setModalForgotPasswordVerifyOTP)}
+      onOpenChange={() => dispatch(setModalForgotPasswordVerifyOTP())}
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

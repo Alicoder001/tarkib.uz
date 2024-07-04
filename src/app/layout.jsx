@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     <html className="h-full" lang="uz">
       <body className="flex h-full flex-col">
         <StoreProvider>{children}</StoreProvider>
-        <Toaster visibleToasts="1" />
+        <Toaster visibleToasts="1" richColors />
       </body>
     </html>
   );

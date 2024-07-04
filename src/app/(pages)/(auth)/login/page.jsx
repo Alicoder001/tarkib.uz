@@ -20,6 +20,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { setModalForgotPasswordVerifyOTP } from "@/lib/redux/slices/modals";
+import { setPhoneNumber } from "@/lib/redux/slices/otp-details";
 import { setUser } from "@/lib/redux/slices/user";
 import { forgotPassword, loginUser } from "@/requests";
 import { useRouter } from "next/navigation";
@@ -31,6 +32,10 @@ function DialogDemo({ forgotPasswordModal, setForgotPasswordModal }) {
   function handleSubmit(e) {
     e.preventDefault();
     const data = getFormData(e.target);
+
+    // Set phone number
+    dispatch(setPhoneNumber(data.phoneNumber));
+
     setIsLoading(true);
     toast.promise(forgotPassword(data), {
       loading: "Tekshirilmoqda...",

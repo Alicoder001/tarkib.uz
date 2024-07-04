@@ -5,8 +5,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="">
-        <Card/>
+      <main>
+        <Card />
       </main>
       <Footer />
     </>
