@@ -13,7 +13,6 @@ import { usePathname } from "next/navigation";
 const BreadCrumb = () => {
   const pathname = usePathname();
   const pathnames = pathname.split("/").filter((x) => x);
-  console.log(pathname);
   function capitalize(string) {
     if (!string) return string; // Agar string bo'sh bo'lsa, uni o'ziga qaytaring
     return string.charAt(0).toUpperCase() + string.slice(1);

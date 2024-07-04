@@ -68,7 +68,10 @@ export default function VerifyOTP({ open, onOpenChange }) {
               kodini kiriting
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleVerify}>
+          <form
+            className="flex flex-col items-center sm:items-start"
+            onSubmit={handleVerify}
+          >
             <InputOTPPattern />
             <DialogFooter className="mt-5">
               <Button className="min-w-28" type="submit">

@@ -19,7 +19,7 @@ export default function ArticlePage() {
         <div className="mb-5 flex items-center gap-4">
           <div className="">
             <Avatar>
-              <AvatarImage src="dfasdfl" />
+              <AvatarImage src="" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>

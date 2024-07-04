@@ -1,4 +1,5 @@
 "use client";
+import { setAlertLoginModal } from "@/lib/redux/slices/modals";
 import { setUser } from "@/lib/redux/slices/user";
 import { logoutUser } from "@/requests";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -44,13 +45,15 @@ export default function Header() {
   function handleWrite() {
     if (user) {
       router.push("/write");
-    } else alert("Kechirasiz");
+    } else {
+      dispatch(setAlertLoginModal());
+    }
   }
 
   return (
     <header className="py-4 shadow-sm">
       <div className="base-container flex items-center justify-between">
-        <Link href={"/"}>
+        <Link href="/">
           <Image
             className="h-8 w-32"
             src={"/assets/logo-light.svg"}
