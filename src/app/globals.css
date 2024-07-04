@@ -86,4 +86,20 @@
   .base-container {
     @apply container px-5;
   }
+
+  .th1 {
+    @apply text-4xl font-extrabold tracking-tight lg:text-5xl;
+  }
+
+  .th2 {
+    @apply border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+  }
+
+  .th3 {
+    @apply tracking-tigh text-2xl font-semibold;
+  }
+
+  .th4 {
+    @apply text-xl font-semibold tracking-tight;
+  }
 }
