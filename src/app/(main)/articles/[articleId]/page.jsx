@@ -51,7 +51,7 @@ export default function ArticlePage() {
           </div>
           <div className="flex items-center gap-2">
             <ChatBubbleIcon width={20} height={20} color="gray" />
-            <span className="text-[13px] text-gray-500">5</span>
+            <span className="text-[13px] text-gray-500">6</span>
           </div>
         </div>
         <div className="flex items-center gap-4">
